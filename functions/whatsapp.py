@@ -6,7 +6,7 @@ import re
 import requests
 import json
 
-from pandas_scripts import getData
+from functions.pandas_scripts import getData
 
 from config import NEW_PATH,WHATS_NOAH_KEY,WHATS_NOAH_TOKEN
 

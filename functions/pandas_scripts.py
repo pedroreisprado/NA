@@ -38,10 +38,6 @@ def separar_paginas(pdf_path):
     files = os.listdir(f'{NEW_PATH}\\pdf_apartado')
     return files
 
-teste = separar_paginas('lkz8i2sfwu')
-for file in teste:
-    print(file.replace('.pdf',''))
-
 def getData(unidade,operacao):
     unidade = str(unidade)
     df = pd.read_excel(f'{DADOS_PATH}//unidpl01.xls', skiprows= 8)

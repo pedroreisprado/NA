@@ -58,10 +58,10 @@ if __name__ == "__main__":
             nome = nome[0]
             envio_msg = noahSendMsgFile(nome,telefone,condominio,unidade)
 
-    logger(f'Deletando os PDFs após o envio')
-    final = deletePDF()
+        logger(f'Deletando os PDFs após o envio')
+        final = deletePDF()
 
-    logger(f'Final do fluxo')   
+        logger(f'Final do fluxo')   
 main_thread = Thread(target=run_main_program)
 main_thread.start()
 

@@ -33,6 +33,7 @@ if __name__ == "__main__":
             logger(f'Balancete inserido errado ou vazio')
             return
         operacao = getOperacao()
+        print(operacao)
         if operacao is None or operacao == "":
             logger(f'Operação selecionada não é valida')
             return

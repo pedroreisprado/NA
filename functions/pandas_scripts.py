@@ -2,7 +2,9 @@ import pandas as pd
 from PyPDF2 import PdfReader,PdfWriter
 import os 
 import re
-from config import SAVE_PATH,NEW_PATH,DADOS_PATH
+from datetime import datetime
+from openpyxl import load_workbook
+from config import SAVE_PATH,NEW_PATH,DADOS_PATH,DEVOLUTIVAS
 
 
 def separar_paginas(pdf_path):
@@ -75,4 +77,47 @@ def deletePDF():
     for file in pdfs:
         caminho_arquivo = os.path.join(path, file)
         os.remove(caminho_arquivo)
+    return True
+
+def CreateSheet(condominio,operacao):
+    data_hoje = str(datetime.today().strftime("%d-%m-%Y"))
+    #-- Abrindo o XLSX de devolutivas
+    workbook = load_workbook(DEVOLUTIVAS)
+    #-- Criando aba do dia
+    sheet_start = workbook['start']
+    last_row = sheet_start.max_row+1
+    sheet_start.cell(row=last_row, column=1).value = data_hoje
+    sheet_start.cell(row=last_row, column=2).value = condominio
+    sheet_start.cell(row=last_row, column=3).value = operacao
+
+    workbook.create_sheet(data_hoje)
+    
+    sheet = workbook[data_hoje]
+    sheet.cell(row=1, column=1).value = 'Data'
+    sheet.cell(row=1, column=2).value = 'Condominio'
+    sheet.cell(row=1, column=3).value = 'Operação'
+    sheet.cell(row=1, column=4).value = 'Nome'
+    sheet.cell(row=1, column=5).value = 'Unidade'
+    sheet.cell(row=1, column=6).value = 'Telefone'
+    workbook.save(DEVOLUTIVAS)
+    return True
+
+def insertInfo(nome, unidade, condominio, telefone, operacao):
+    #-- Obter a data de hoje
+    data_hoje = str(datetime.today().strftime("%d-%m-%Y"))
+    #-- Abrindo o XLSX de devolutivas
+    workbook = load_workbook(DEVOLUTIVAS)
+
+    sheet = workbook[data_hoje]
+    #-- Coletando o numero da ultima linha preenchida
+    last_row = sheet.max_row +1
+
+    #-- Inputando informação do cliente nas devolutivas
+    sheet.cell(row=last_row, column=1).value = data_hoje
+    sheet.cell(row=last_row, column=2).value = condominio
+    sheet.cell(row=last_row, column=3).value = operacao
+    sheet.cell(row=last_row, column=4).value = nome
+    sheet.cell(row=last_row, column=5).value = unidade
+    sheet.cell(row=last_row, column=6).value = telefone
+    workbook.save(DEVOLUTIVAS)
     return True

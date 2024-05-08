@@ -7,7 +7,7 @@ import pyperclip
 from threading import Thread
 from pynput.mouse import Controller,Button
 
-from functions.pandas_scripts import separar_paginas,getData,deletePDF
+from functions.pandas_scripts import separar_paginas,getData,deletePDF,CreateSheet,insertInfo
 from functions.getBalancete import inputBalancete,getOperacao,getCondominio
 from functions.initConfig import initSplash
 from functions.logger import logger
@@ -49,6 +49,10 @@ if __name__ == "__main__":
             return
         logger(f'Separando cada unidade em PDF')
         files = separar_paginas(f'{boletos}.pdf')
+        logger(f'Criando a aba no arquivo de Devolutivas')
+        criando_sheet = CreateSheet(condominio,operacao)
+        if not criando_sheet:
+            logger(f'Erro ao criar as devolutivas, processo vai seguir sem salvar informações')
         logger(f'Para cada cliente, executar o fluxo de coleta de dados e envio do WPP')
         for file in files:
             unidade = str(file.replace('.pdf',''))
@@ -58,6 +62,10 @@ if __name__ == "__main__":
             telefone = telefone.replace('-','').replace('(','').replace(')','').replace(' ',"")
             nome = nome[0]
             envio_msg = noahSendMsgFile(nome,telefone,condominio,unidade)
+            insert_infos = insertInfo(nome,unidade,condominio,telefone,operacao)
+            if not insert_infos:
+                logger(f'Não foi possivel salvar informações no arquivos de devolutiva, seguindo para o proximo')
+                continue
 
         logger(f'Deletando os PDFs após o envio')
         final = deletePDF()

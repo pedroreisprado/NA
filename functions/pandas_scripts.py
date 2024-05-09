@@ -6,8 +6,8 @@ from datetime import datetime
 from openpyxl import load_workbook
 from config import SAVE_PATH,NEW_PATH,DADOS_PATH,DEVOLUTIVAS
 
-
 def separar_paginas(pdf_path):
+    pdf_path = pdf_path.replace('.pdf','')
     pdf_path = (f'{SAVE_PATH}\\{pdf_path}.pdf')
     # Crie um diretório para armazenar os PDFs separados
 
@@ -87,8 +87,8 @@ def CreateSheet(condominio,operacao):
     sheet_start = workbook['start']
     last_row = sheet_start.max_row+1
     sheet_start.cell(row=last_row, column=1).value = data_hoje
-    sheet_start.cell(row=last_row, column=2).value = condominio
-    sheet_start.cell(row=last_row, column=3).value = operacao
+    sheet_start.cell(row=last_row, column=3).value = condominio
+    sheet_start.cell(row=last_row, column=2).value = operacao
 
     workbook.create_sheet(data_hoje)
     

@@ -48,7 +48,7 @@ if __name__ == "__main__":
             logger(f'Falha ao coletar boletos')
             return
         logger(f'Separando cada unidade em PDF')
-        files = separar_paginas(f'{boletos}.pdf')
+        files = separar_paginas(f'{boletos}')
         logger(f'Criando a aba no arquivo de Devolutivas')
         criando_sheet = CreateSheet(condominio,operacao)
         if not criando_sheet:

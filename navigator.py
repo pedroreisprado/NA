@@ -31,10 +31,19 @@ def getBoletos(balancete):
     time.sleep(15)
     pyautogui.click(85,218)
     time.sleep(0.5)
-    for _ in range(3):
-        time.sleep(0.5)
+    for _ in range(2):
+        time.sleep(1)
         pyautogui.press('enter')
-    time.sleep(3)
+    time.sleep(10)
+    #-- Pode existir outro aviso depois de apertar o enter 2x, essa verificação valida se ele apareceu
+    try:
+        verif = pyautogui.locateOnScreen('C:\\2RFP\\assets\\error.png',confidence=0.2)
+        logger(verif)
+        if(verif):
+            pyautogui.press('enter')
+    except:
+        logger(f'Skip')
+    #-- Criando um nome aleatorio para o arquivo
     caracteres = string.ascii_letters + string.digits  # Letras e números
     nome_arquivo=  ''.join(random.choice(caracteres) for _ in range(10))
     nome_arquivo = nome_arquivo.lower()

@@ -12,11 +12,11 @@ from config import NEW_PATH,WHATS_NOAH_KEY,WHATS_NOAH_TOKEN
 
 def noahSendMsgFile(nome, number,condominio ,unidade):
     number = str(number)
-    message = str(message)
+    number = number.replace('.0','')
     unidade = str(unidade)
     nome = str(nome)
 
-    MESSAGE = (f'Olá {nome}, segue boleto referente a taxa condominial do Condomínio {condominio}, unidade {unidade}. Por favor, antes de efetivar o pagamento no internet banking, confirme os seguintes dados: valor, vencimento, beneficiário e pagador, CNPJ do beneficiário e CPF/CNPJ do Pagador. Após confirmações, realize o pagamento até a data de vencimento. Em caso de dúvidas, a N&A Condomínios está a disposição pelos telefones (14) 99115-8661 /(14) 3570-1600.')
+    MESSAGE = (f'Olá {nome}, segue boleto referente a taxa condominial do Condomínio {condominio}, unidade {unidade}. Por favor, antes de efetivar o pagamento no internet banking, confirme os seguintes dados: valor, vencimento, beneficiário e pagador, CNPJ do beneficiário e CPF/CNPJ do Pagador. Após confirmações, realize o pagamento até a data de vencimento. Em caso de dúvidas, a N&A Condomínios está a disposição pelos telefones (14) 99115-8661 /(14) 3570-1600. Mensagem automatica, favor não responder.')
 
     url = "https://2rfpapi.bragimulticanal.com.br/v1/api/external/" + str(WHATS_NOAH_KEY)
 
@@ -26,7 +26,7 @@ def noahSendMsgFile(nome, number,condominio ,unidade):
         'body': str(MESSAGE)
     }
     pdf_name = (f'{unidade}.pdf')
-    pdf_full_path = (f'{NEW_PATH}\\{pdf_name}')
+    pdf_full_path = (f'{NEW_PATH}\\pdf_apartado\\{pdf_name}')
     
     files = {'media': (pdf_name, open(pdf_full_path, 'rb'), 'application/pdf')}
 
